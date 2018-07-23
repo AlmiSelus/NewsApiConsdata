@@ -1,0 +1,3 @@
+rootProject.name = 'RekrutacjaConsdata'
+include 'RekrutacjaConstada-Core'
+
