@@ -5,7 +5,7 @@ import com.mike.consdata.news.io.Article;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
+import java.time.ZonedDateTime;
 
 @Component
 public class NewsApiArticleToArticleConverter implements Converter<NewsApiArticle, Article> {
@@ -14,7 +14,7 @@ public class NewsApiArticleToArticleConverter implements Converter<NewsApiArticl
         return Article.builder()
                 .author(source.getAuthor())
                 .articleUrl(source.getUrl())
-                .date(LocalDate.parse(source.getPublishedAt()))
+                .date(ZonedDateTime.parse(source.getPublishedAt()).toLocalDate())
                 .description(source.getDescription())
                 .imageUrl(source.getUrlToImage())
                 .sourceName(source.getSource().getName())

@@ -8,4 +8,5 @@ import lombok.Data;
 public class NewsRequest {
     private String country;
     private String category;
+    private Integer page;
 }
