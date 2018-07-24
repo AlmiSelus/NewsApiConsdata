@@ -1,4 +1,4 @@
-package com.mike.consdata.news;
+package com.mike.consdata.news.io;
 
 import lombok.Builder;
 import lombok.Data;

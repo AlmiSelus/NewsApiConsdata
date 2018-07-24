@@ -1,5 +1,7 @@
 package com.mike.consdata.news;
 
+import com.mike.consdata.news.io.NewsResponse;
+import com.mike.consdata.news.io.NewsRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +25,7 @@ public class NewsRestController {
     }
 
     @GetMapping("/{country}/{category}")
-    public ResponseEntity<List<News>> findAllNews(@PathVariable("country") String country, @PathVariable("category") String category) {
+    public ResponseEntity<NewsResponse> findAllNews(@PathVariable("country") String country, @PathVariable("category") String category) {
         return ResponseEntity.ok(newsService.getAllNews(NewsRequest.builder().category(category).country(country).build()));
     }
 
