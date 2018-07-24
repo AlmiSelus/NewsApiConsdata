@@ -7,7 +7,6 @@ import com.mike.consdata.integration.api.io.NewsApiSource;
 import com.mike.consdata.news.io.Article;
 import com.mike.consdata.news.io.NewsRequest;
 import com.mike.consdata.news.io.NewsResponse;
-import org.hamcrest.core.IsNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
