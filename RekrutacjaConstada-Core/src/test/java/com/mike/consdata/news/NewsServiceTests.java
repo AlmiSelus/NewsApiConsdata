@@ -16,11 +16,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.ZonedDateTime;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.notNullValue;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -44,7 +46,7 @@ public class NewsServiceTests {
                 .author("Author")
                 .description("description")
                 .source(NewsApiSource.builder().name("source").id("id").build())
-                .publishedAt("2017-07-01")
+                .publishedAt("2017-07-01T01:01:01Z")
                 .title("Title")
                 .url("http://url.test.com")
                 .urlToImage("http://url.test.com/img.1.png")
@@ -55,9 +57,9 @@ public class NewsServiceTests {
                 .article(newsApiArticle)
                 .build();
 
-        when(newsApiServiceProvider.getTopHeadlines(anyString(), anyString(), anyString())).thenReturn(newsApiResponse);
+        when(newsApiServiceProvider.getTopHeadlines(any())).thenReturn(newsApiResponse);
 
-        NewsResponse news = newsService.getAllNews(NewsRequest.builder().category("technology").country("pl").build());
+        NewsResponse news = newsService.getAllNews(NewsRequest.builder().category("technology").country("pl").page(1).build());
 
         assertThat(news, is(notNullValue()));
         assertThat(news.getCountry(), is("pl"));
@@ -69,7 +71,7 @@ public class NewsServiceTests {
         assertThat(article.getDescription(), is(newsApiArticle.getDescription()));
         assertThat(article.getSourceName(), is(newsApiArticle.getSource().getName()));
         assertThat(article.getArticleUrl(), is(newsApiArticle.getUrl()));
-        assertThat(article.getDate().toString(), is(newsApiArticle.getPublishedAt()));
+        assertThat(article.getDate(), is(ZonedDateTime.parse(newsApiArticle.getPublishedAt()).toLocalDate()));
         assertThat(article.getImageUrl(), is(newsApiArticle.getUrlToImage()));
         assertThat(article.getTitle(), is(newsApiArticle.getTitle()));
     }
@@ -82,7 +84,7 @@ public class NewsServiceTests {
                 .message("Your API key is invalid or incorrect. Check your key, or go to https://newsapi.org to create a free API key.")
                 .build();
 
-        when(newsApiServiceProvider.getTopHeadlines(anyString(), anyString(), anyString())).thenReturn(newsApiResponse);
+        when(newsApiServiceProvider.getTopHeadlines(any())).thenReturn(newsApiResponse);
 
         NewsResponse news = newsService.getAllNews(NewsRequest.builder().category("technology").country("pl").build());
 

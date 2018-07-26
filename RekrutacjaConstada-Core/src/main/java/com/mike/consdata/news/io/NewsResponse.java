@@ -14,7 +14,12 @@ public class NewsResponse {
     private String error;
 
     private String country;
+
     private String category;
+
     @Singular("article")
     private List<Article> articles;
+
+    private long page;
+    private long totalPages;
 }
