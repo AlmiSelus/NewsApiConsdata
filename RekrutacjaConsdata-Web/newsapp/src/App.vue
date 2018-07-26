@@ -1,24 +1,63 @@
 <template>
-  <div id="app">
-    <md-toolbar id='toolbar'>
-      <news-search></news-search>
-    </md-toolbar>
-    <div class="md-app-content">
-      <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div id="app">
+        <md-toolbar id='toolbar'>
+            <news-search :news-metadata="newsMetadata" v-on:metadata-changed="callSearchNews"></news-search>
+        </md-toolbar>
+        <div class="md-app-content">
+            <news-list :list="newsList"></news-list>
+
+            <pagination :news-metadata="newsMetadata"
+                      v-on:page-changed="callGetNews"></pagination>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 import NewsSearch from "./components/search/SearchNews";
+import NewsList from "./components/newslist/NewsList";
+import Pagination from "./components/pagination/Pagination";
+import {NewsRestMixin} from "./mixins/news.rest.mixin";
 
 export default {
-  name: 'app',
-  components: {
-      NewsSearch,
-    HelloWorld
-  }
+    name: 'app',
+    mixins: [NewsRestMixin],
+    components: {
+        NewsList,
+        NewsSearch,
+        Pagination
+    },
+    data: function() {
+        return {
+            newsList: [],
+            newsMetadata: {language: 'pl', category: 'technology', currentPage: 1, totalPages: 0}
+        }
+    },
+    methods: {
+        callGetNews: function (metadata) {
+            this.getAllNews(metadata).then(function(data){
+                this.onSuccess(data, metadata);
+            });
+        },
+
+        callSearchNews: function (metadata) {
+          this.getAllNewsSearched(metadata).then(function(data) {
+              this.onSuccess(data, metadata)
+          });
+        },
+
+        onSuccess: function(data, metadata) {
+            this.newsList = data.body.articles;
+            this.newsMetadata = {
+                language: metadata.language,
+                category: metadata.category,
+                currentPage: data.body.page,
+                totalPages: data.body.totalPages
+            };
+        }
+    },
+    beforeMount: function () {
+        this.callGetNews(this.newsMetadata);
+    }
 }
 </script>
 

@@ -1,30 +1,30 @@
 <template>
-        <div class="md-toolbar-row">
-            <div class="md-toolbar-section-start">
-            </div>
+    <div class="md-toolbar-row">
+        <div class="md-toolbar-section-start">
+        </div>
 
+        <md-field>
+            <md-input v-model="searchData.query"></md-input>
+        </md-field>
+
+        <div class="md-toolbar-section-end">
             <md-field>
-                <md-input v-model="searchData.query"></md-input>
+                <label for="category">Category</label>
+                <md-select v-model="searchData.category" name="category" id="category">
+                    <md-option v-for="category in categories" :value="category">{{category}}</md-option>
+                </md-select>
             </md-field>
 
-            <div class="md-toolbar-section-end">
-                <md-field>
-                    <label for="category">Category</label>
-                    <md-select v-model="searchData.category" name="category" id="category">
-                        <md-option v-for="category in categories" :value="category">{{category}}</md-option>
-                    </md-select>
-                </md-field>
+            <md-button class="md-icon-button">
+                <md-icon>search</md-icon>
+            </md-button>
 
-                <md-button class="md-icon-button">
-                    <md-icon>search</md-icon>
-                </md-button>
+            <md-button class="md-icon-button">
+                <md-icon>refresh</md-icon>
+            </md-button>
 
-                <md-button class="md-icon-button">
-                    <md-icon>refresh</md-icon>
-                </md-button>
-
-            </div>
         </div>
+    </div>
 </template>
 
 <script>
@@ -38,6 +38,9 @@
                 categories: [],
                 searchData: { category: '', query: '', lang: 'pl' }
             }
+        },
+        props: {
+            newsMetadata: {}
         },
         beforeMount: function () {
             this.getCategories().then(function(data){

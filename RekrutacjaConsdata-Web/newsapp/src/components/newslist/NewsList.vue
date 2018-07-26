@@ -1,7 +1,6 @@
 <template>
     <div>
-        <news v-for="news in newsList" :news="news"></news>
-        <pagination :page-info="pageInfo"></pagination>
+        <news v-for="news in list" :news="news"></news>
     </div>
 </template>
 <script>
@@ -12,20 +11,8 @@
         name: 'NewsList',
         components: {Pagination, News},
         mixins: [NewsRestMixin],
-        data: function() {
-            return {
-                newsList: [],
-                pageInfo: {}
-            }
-        },
-        beforeMount: function () {
-            this.getAllNews('pl', 'technology').then(function(data){
-                this.newsList = data.body.articles;
-                this.pageInfo = {
-                    currentPage: data.body.page,
-                    totalPages: data.body.totalPages
-                };
-            });
+        props: {
+            list: Array
         }
     }
 </script>

@@ -1,7 +1,26 @@
 export const NewsRestMixin ={
     methods: {
-        getAllNews: function(language, category) {
-            return this.$http.get('http://localhost:9080/news/'+language+'/'+category);
+        /**
+         * @param metadata: {
+         *      language
+         *      category
+         *      currentPage
+         *      totalPages
+         *  }
+         * @returns {*|PromiseLike<HttpResponse>}
+         */
+        getAllNews: function(metadata) {
+            return this.$http.get('http://localhost:9080/news/' +
+                metadata.language + '/' +
+                metadata.category + '/' +
+                metadata.currentPage);
+        },
+
+        getAllNewsSearched: function(metadata) {
+            return this.$http.get('http://localhost:9080/news/'+
+                metadata.language + '/' +
+                metadata.category + '/' +
+                metadata.currentPage + '?query=' + metadata.query);
         },
 
         getCategories: function() {
