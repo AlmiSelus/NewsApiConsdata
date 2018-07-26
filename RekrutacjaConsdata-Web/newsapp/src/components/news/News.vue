@@ -10,8 +10,8 @@
         </md-card-header>
 
         <md-card-content>
-            <md-button class="md-icon-button md-raised md-primary" :href="news.articleUrl">
-                <md-icon>send</md-icon>
+            <md-button class="md-raised md-primary" :href="news.articleUrl">
+                Idź do strony
             </md-button>
         </md-card-content>
     </md-card>
