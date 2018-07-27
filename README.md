@@ -1,6 +1,7 @@
 **Starting the project**
 
-Both applications should be started in different consoles.
+Both applications should be started in different consoles. \
+Clone the repository, enter it and then execute following steps:
 
 Backend:\
 `cd RekrutacjaConstada-Core` \
