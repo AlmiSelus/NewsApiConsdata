@@ -48,8 +48,8 @@ public class NewsServiceTests {
                 .source(NewsApiSource.builder().name("source").id("id").build())
                 .publishedAt("2017-07-01T01:01:01Z")
                 .title("Title")
-                .url("http://url.test.com")
-                .urlToImage("http://url.test.com/img.1.png")
+                .url("http://getUrl.test.com")
+                .urlToImage("http://getUrl.test.com/img.1.png")
                 .build();
 
         NewsApiResponse newsApiResponse = NewsApiResponse.builder()

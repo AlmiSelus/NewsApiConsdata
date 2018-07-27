@@ -5,6 +5,7 @@ import com.mike.consdata.news.io.Article;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.Charset;
 import java.time.ZonedDateTime;
 
 @Component
@@ -19,9 +20,12 @@ public class NewsApiArticleToArticleConverter implements Converter<NewsApiArticl
         Article.ArticleBuilder articleBuilder = Article.builder()
                 .author(source.getAuthor())
                 .articleUrl(source.getUrl())
-                .description(source.getDescription())
                 .imageUrl(source.getUrlToImage())
                 .title(source.getTitle());
+
+        if(source.getDescription() != null) {
+            articleBuilder = articleBuilder.description(new String(source.getDescription().getBytes(Charset.forName("UTF-8"))));
+        }
 
         if(source.getPublishedAt() != null && !source.getPublishedAt().isEmpty()) {
             articleBuilder = articleBuilder.date(ZonedDateTime.parse(source.getPublishedAt()).toLocalDate());

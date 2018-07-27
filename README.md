@@ -7,7 +7,7 @@ Backend:\
 `gradle build bootRun`
 
 Frontend:\
-`cd RekrutacjaConsdata-Web` \
+`cd RekrutacjaConsdata-Web/newsapp` \
 `npm run serve`
 
 **Usefull links**

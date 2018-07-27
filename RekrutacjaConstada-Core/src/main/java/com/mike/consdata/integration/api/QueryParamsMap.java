@@ -16,6 +16,7 @@ public class QueryParamsMap extends TreeMap<String, Object> {
         }
 
         return entrySet().stream()
+                .filter(x->x.getKey() != null && x.getValue() != null)
                 .map(entry->entry.getKey() + QUERY_PARAM_KEY_VALUE_SEPARATOR + entry.getValue().toString())
                 .collect(Collectors.joining(QUERY_PARAMS_SEPARATOR));
     }

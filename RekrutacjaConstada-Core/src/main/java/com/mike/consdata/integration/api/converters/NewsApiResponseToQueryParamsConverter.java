@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class NewsApiResponseToQueryParamsConverter implements Converter<NewsApiRequest, QueryParamsMap> {
 
-    private static final String API_KEY_QUERY_PARAM = "apiKey";
     private static final String COUNTRY_QUERY_PARAM = "country";
     private static final String CATEGORY_QUERY_PARAM = "category";
     private static final String PAGE_SIZE_QUERY_PARAM = "pageSize";
@@ -20,11 +19,16 @@ public class NewsApiResponseToQueryParamsConverter implements Converter<NewsApiR
     @Override
     public QueryParamsMap convert(NewsApiRequest source) {
         QueryParamsMap queryParams = new QueryParamsMap();
-        queryParams.put(API_KEY_QUERY_PARAM, source.getApiKey());
         queryParams.put(COUNTRY_QUERY_PARAM, source.getCountry());
         queryParams.put(CATEGORY_QUERY_PARAM, source.getCategory());
-        queryParams.put(PAGE_SIZE_QUERY_PARAM, Long.toString(source.getResultsPerPage()));
-        queryParams.put(PAGE_QUERY_PARAM, Long.toString(source.getPage()));
+
+        if(source.getResultsPerPage() > 0) {
+            queryParams.put(PAGE_SIZE_QUERY_PARAM, Long.toString(source.getResultsPerPage()));
+        }
+
+        if(source.getPage() != null) {
+            queryParams.put(PAGE_QUERY_PARAM, Long.toString(source.getPage()));
+        }
 
         if(source.getQuery() != null && !source.getQuery().isEmpty()) {
             log.info("Adding query information to request!");

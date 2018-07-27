@@ -72,7 +72,9 @@ public class NewsService {
 
         NewsApiResponse newsApiResponse = Try.of(()->Optional.ofNullable(newsApiResponseSupplier.apply(newsApiRequest))
                 .orElseThrow(IllegalAccessError::new))
-                .getOrElseThrow((Supplier<IllegalArgumentException>) IllegalArgumentException::new);
+                .getOrElseGet((e)->NewsApiResponse.builder()
+                        .status("error")
+                        .message("Cannot create request. Reason: "+e.getMessage()).build());
 
         log.info("Status = {}", newsApiResponse.getStatus());
 
