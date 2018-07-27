@@ -10,5 +10,5 @@ Frontend:\
 
 **Usefull links**
 
-* Main application page: http://localhost:8080 \
+* Main application page: http://localhost:8080 
 * Swagger REST documentation: http://localhost:9080/swagger-ui.html
