@@ -22,6 +22,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 import static io.vavr.API.$;
 import static io.vavr.API.Case;
@@ -46,7 +48,11 @@ public class NewsService {
     @Value("${news.results.pageSize}")
     private long resultsPerPage;
 
-    public NewsResponse getAllNews(NewsRequest newsRequest) {
+    public NewsResponse getNewsList(NewsRequest newsRequest) {
+        return getAllNews(newsRequest, newsApiServiceProvider::getTopHeadlines);
+    }
+
+    private NewsResponse getAllNews(NewsRequest newsRequest, Function<NewsApiRequest, NewsApiResponse> newsApiResponseSupplier) {
         Errors errors = new MapBindingResult(new HashMap<>(), "NewsValidationResult");
         newsRequestValidator.validate(newsRequest, errors);
 
@@ -60,11 +66,13 @@ public class NewsService {
                 .country(newsRequest.getCountry())
                 .page(newsRequest.getPage())
                 .resultsPerPage(resultsPerPage)
+                .query(newsRequest.getQuery())
                 .build();
 
 
-        NewsApiResponse newsApiResponse = Try.of(()->Optional.ofNullable(newsApiServiceProvider
-                .getTopHeadlines(newsApiRequest)).orElseThrow(IllegalAccessError::new)).getOrElseThrow(() -> new IllegalArgumentException());
+        NewsApiResponse newsApiResponse = Try.of(()->Optional.ofNullable(newsApiResponseSupplier.apply(newsApiRequest))
+                .orElseThrow(IllegalAccessError::new))
+                .getOrElseThrow((Supplier<IllegalArgumentException>) IllegalArgumentException::new);
 
         log.info("Status = {}", newsApiResponse.getStatus());
 
@@ -77,4 +85,5 @@ public class NewsService {
     public List<String> getAllCategories() {
         return Arrays.asList("business", "entertainment", "general", "health", "science", "sports", "technology");
     }
+
 }

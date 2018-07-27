@@ -11,4 +11,5 @@ public class NewsApiRequest {
     private Integer page;
     private String apiKey;
     private long resultsPerPage;
+    private String query;
 }

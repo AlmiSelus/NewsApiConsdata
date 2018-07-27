@@ -1,13 +1,19 @@
 <template>
     <div id="app">
         <md-toolbar id='toolbar'>
-            <news-search :news-metadata="newsMetadata" v-on:metadata-changed="callSearchNews"></news-search>
+            <news-search :news-metadata="newsMetadata"
+                         :searchInputsDisabled="searchInputsDisabled"
+                         v-on:metadata-changed="callSearchNews"></news-search>
         </md-toolbar>
         <div class="md-app-content">
-            <news-list :list="newsList"></news-list>
+            <md-progress-spinner md-mode="indeterminate"
+                                 v-show="isLoading"></md-progress-spinner>
+
+            <news-list :list="newsList" v-show="!isLoading && !isError"></news-list>
 
             <pagination :news-metadata="newsMetadata"
-                      v-on:page-changed="callGetNews"></pagination>
+                      v-on:page-changed="callGetNews"
+                      v-show="!isLoading && !isError"></pagination>
         </div>
     </div>
 </template>
@@ -28,21 +34,29 @@ export default {
     },
     data: function() {
         return {
+            isLoading: true,
+            isError: false,
+            searchInputsDisabled: false,
             newsList: [],
             newsMetadata: {language: 'pl', category: 'technology', currentPage: 1, totalPages: 0}
         }
     },
     methods: {
         callGetNews: function (metadata) {
+            this.resetState();
             this.getAllNews(metadata).then(function(data){
                 this.onSuccess(data, metadata);
+            }, function(error){
+
             });
         },
 
         callSearchNews: function (metadata) {
-          this.getAllNewsSearched(metadata).then(function(data) {
-              this.onSuccess(data, metadata)
-          });
+            console.log('Metadata = ', metadata);
+            this.resetState();
+            this.getAllNewsSearched(metadata).then(function(data) {
+                this.onSuccess(data, metadata);
+            });
         },
 
         onSuccess: function(data, metadata) {
@@ -53,6 +67,14 @@ export default {
                 currentPage: data.body.page,
                 totalPages: data.body.totalPages
             };
+            this.isLoading = false;
+            this.searchInputsDisabled = false;
+        },
+
+        resetState: function() {
+            this.isLoading = true;
+            this.newsList = [];
+            this.searchInputsDisabled = true;
         }
     },
     beforeMount: function () {

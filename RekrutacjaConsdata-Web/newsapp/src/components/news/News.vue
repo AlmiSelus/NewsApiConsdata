@@ -1,7 +1,7 @@
 <template>
     <md-card class="col-md-3">
         <md-card-media>
-            <img :src="news.imageUrl" :alt="news.title">
+            <img :src="news.imageUrl == null ? noImageAvailable : news.imageUrl" :alt="news.title">
         </md-card-media>
 
         <md-card-header>
@@ -22,6 +22,11 @@
         name: 'News',
         props: {
             news: {}
+        },
+        computed: {
+            noImageAvailable : function() {
+                return require('@/assets/No_Image_Available.png');
+            }
         }
     }
 </script>

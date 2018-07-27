@@ -34,10 +34,12 @@ public class NewsRestController {
     @GetMapping("/{country}/{category}/{page}")
     public ResponseEntity<NewsResponse> findAllNews(@PathVariable("country") String country,
                                                     @PathVariable("category") String category,
-                                                    @PathVariable("page") Integer page) {
+                                                    @PathVariable("page") Integer page,
+                                                    @RequestParam(value = "query", required = false) String query) {
+        log.info("Query = {}", query);
         NewsRequest newsRequest =
-                NewsRequest.builder().category(category).country(country).page(page == null ? 1 : page).build();
-        NewsResponse newsResponse = newsService.getAllNews(newsRequest);
+                NewsRequest.builder().category(category).country(country).page(page == null ? 1 : page).query(query).build();
+        NewsResponse newsResponse = newsService.getNewsList(newsRequest);
 
         log.info("Response error = {}", newsResponse.getError());
 

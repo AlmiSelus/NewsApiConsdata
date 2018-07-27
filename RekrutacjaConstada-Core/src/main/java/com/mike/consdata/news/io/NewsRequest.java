@@ -9,4 +9,5 @@ public class NewsRequest {
     private String country;
     private String category;
     private Integer page;
+    private String query;
 }

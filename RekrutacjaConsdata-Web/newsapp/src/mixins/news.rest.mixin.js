@@ -17,6 +17,10 @@ export const NewsRestMixin ={
         },
 
         getAllNewsSearched: function(metadata) {
+            if(!metadata.query) {
+                // fallback to standard version
+                return this.getAllNews(metadata);
+            }
             return this.$http.get('http://localhost:9080/news/'+
                 metadata.language + '/' +
                 metadata.category + '/' +
