@@ -5,7 +5,9 @@ Clone the repository, enter it and then execute following steps:
 
 Backend:\
 `cd RekrutacjaConstada-Core` \
-`gradle build bootRun`
+`..\gradlew.bat build bootRun`
+
+Depending on your system use `gradlew.bat` or `gradlew`.
 
 Frontend:\
 `cd RekrutacjaConsdata-Web/newsapp` \
