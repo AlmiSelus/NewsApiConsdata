@@ -32,3 +32,8 @@ Frontend:\
     * VueMaterial
     * VueResource
     * Webpack
+    
+**Additional points completed**
+* Pagination
+* Category switching
+* News search
