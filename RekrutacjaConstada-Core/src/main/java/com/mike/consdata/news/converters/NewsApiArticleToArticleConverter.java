@@ -9,16 +9,28 @@ import java.time.ZonedDateTime;
 
 @Component
 public class NewsApiArticleToArticleConverter implements Converter<NewsApiArticle, Article> {
+    private static final String NULL_INPUT_MESSAGE = "Passed null api response object!";
+
     @Override
     public Article convert(NewsApiArticle source) {
-        return Article.builder()
+        if(source == null) {
+            throw new IllegalArgumentException(NULL_INPUT_MESSAGE);
+        }
+        Article.ArticleBuilder articleBuilder = Article.builder()
                 .author(source.getAuthor())
                 .articleUrl(source.getUrl())
-                .date(ZonedDateTime.parse(source.getPublishedAt()).toLocalDate())
                 .description(source.getDescription())
                 .imageUrl(source.getUrlToImage())
-                .sourceName(source.getSource().getName())
-                .title(source.getTitle())
-                .build();
+                .title(source.getTitle());
+
+        if(source.getPublishedAt() != null && !source.getPublishedAt().isEmpty()) {
+            articleBuilder = articleBuilder.date(ZonedDateTime.parse(source.getPublishedAt()).toLocalDate());
+        }
+
+        if(source.getSource() != null) {
+            articleBuilder = articleBuilder.sourceName(source.getSource().getName());
+        }
+
+        return articleBuilder.build();
     }
 }

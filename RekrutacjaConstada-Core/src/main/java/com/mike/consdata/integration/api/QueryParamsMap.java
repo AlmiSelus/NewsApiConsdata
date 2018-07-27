@@ -2,10 +2,10 @@ package com.mike.consdata.integration.api;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-public class QueryParamsMap extends HashMap<String, Object> {
+public class QueryParamsMap extends TreeMap<String, Object> {
     private static final String QUERY_PARAM_KEY_VALUE_SEPARATOR = "=";
     private static final String QUERY_PARAMS_SEPARATOR = "&";
 

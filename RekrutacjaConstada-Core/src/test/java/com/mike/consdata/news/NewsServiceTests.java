@@ -59,7 +59,7 @@ public class NewsServiceTests {
 
         when(newsApiServiceProvider.getTopHeadlines(any())).thenReturn(newsApiResponse);
 
-        NewsResponse news = newsService.getAllNews(NewsRequest.builder().category("technology").country("pl").page(1).build());
+        NewsResponse news = newsService.getNewsList(NewsRequest.builder().category("technology").country("pl").page(1).build());
 
         assertThat(news, is(notNullValue()));
         assertThat(news.getCountry(), is("pl"));
@@ -86,7 +86,7 @@ public class NewsServiceTests {
 
         when(newsApiServiceProvider.getTopHeadlines(any())).thenReturn(newsApiResponse);
 
-        NewsResponse news = newsService.getAllNews(NewsRequest.builder().category("technology").country("pl").build());
+        NewsResponse news = newsService.getNewsList(NewsRequest.builder().category("technology").country("pl").build());
 
         assertThat(news, is(notNullValue()));
         assertThat(news.getError(), is(newsApiResponse.getMessage())); //forward message from external service
@@ -94,7 +94,7 @@ public class NewsServiceTests {
 
     @Test
     public void testGetNews_passedNullCountry_shouldReturnErrorMockedResponse() {
-        NewsResponse news = newsService.getAllNews(NewsRequest.builder().category("technology").country(null).build());
+        NewsResponse news = newsService.getNewsList(NewsRequest.builder().category("technology").country(null).build());
 
         assertThat(news, is(notNullValue()));
         assertThat(news.getError(), is("Country is null"));
@@ -102,7 +102,7 @@ public class NewsServiceTests {
 
     @Test
     public void testGetNews_passedNullCategory_shouldReturnErrorMockedResponse() {
-        NewsResponse news = newsService.getAllNews(NewsRequest.builder().category(null).country("pl").build());
+        NewsResponse news = newsService.getNewsList(NewsRequest.builder().category(null).country("pl").build());
 
         assertThat(news, is(notNullValue()));
         assertThat(news.getError(), is("Category is null"));
@@ -110,7 +110,7 @@ public class NewsServiceTests {
 
     @Test
     public void testGetNews_passedEmptyCountry_shouldReturnErrorMockedResponse() {
-        NewsResponse news = newsService.getAllNews(NewsRequest.builder().category("technology").country("").build());
+        NewsResponse news = newsService.getNewsList(NewsRequest.builder().category("technology").country("").build());
 
         assertThat(news, is(notNullValue()));
         assertThat(news.getError(), is("Country is empty"));
@@ -118,7 +118,7 @@ public class NewsServiceTests {
 
     @Test
     public void testGetNews_passedEmptyCategory_shouldReturnErrorMockedResponse() {
-        NewsResponse news = newsService.getAllNews(NewsRequest.builder().category("").country("pl").build());
+        NewsResponse news = newsService.getNewsList(NewsRequest.builder().category("").country("pl").build());
 
         assertThat(news, is(notNullValue()));
         assertThat(news.getError(), is("Category is empty"));

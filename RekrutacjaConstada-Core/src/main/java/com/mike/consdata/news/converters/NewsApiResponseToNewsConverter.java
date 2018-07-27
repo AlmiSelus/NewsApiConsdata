@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 @Component
 public class NewsApiResponseToNewsConverter implements BiConverter<NewsApiResponse, NewsRequest, NewsResponse> {
 
+    private static final String NULL_INPUT_MESSAGE = "Input data is null!";
+
     @Autowired
     private NewsApiArticleToArticleConverter newsApiArticleToArticleConverter;
 
@@ -23,7 +25,9 @@ public class NewsApiResponseToNewsConverter implements BiConverter<NewsApiRespon
 
     @Override
     public NewsResponse convert(NewsApiResponse newsApiResponse, NewsRequest newsRequest) {
-        log.info("Converting response");
+        if(newsApiResponse == null || newsRequest == null) {
+            throw new IllegalArgumentException(NULL_INPUT_MESSAGE);
+        }
         return NewsResponse.builder()
                 .articles(newsApiResponse.getArticles().stream().map(newsApiArticleToArticleConverter::convert).collect(Collectors.toList()))
                 .category(newsRequest.getCategory())
