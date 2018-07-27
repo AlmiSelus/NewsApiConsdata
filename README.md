@@ -1,5 +1,7 @@
 **Starting the project**
 
+Both applications should be started in different consoles.
+
 Backend:\
 `cd RekrutacjaConstada-Core` \
 `gradle build bootRun`
