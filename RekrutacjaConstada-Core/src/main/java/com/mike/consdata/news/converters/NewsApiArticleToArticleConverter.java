@@ -24,7 +24,7 @@ public class NewsApiArticleToArticleConverter implements Converter<NewsApiArticl
                 .title(source.getTitle());
 
         if(source.getDescription() != null) {
-            articleBuilder = articleBuilder.description(new String(source.getDescription().getBytes(Charset.forName("UTF-8"))));
+            articleBuilder = articleBuilder.description(source.getDescription());
         }
 
         if(source.getPublishedAt() != null && !source.getPublishedAt().isEmpty()) {
