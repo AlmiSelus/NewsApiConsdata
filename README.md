@@ -4,7 +4,7 @@ Both applications should be started in different consoles. \
 Clone the repository, enter it and then execute following steps:
 
 Backend:\
-`cd RekrutacjaConstada-Core` \
+`cd RekrutacjaConsdata-Core` \
 `..\gradlew.bat build bootRun`
 
 Depending on your system use `gradlew.bat` or `gradlew`.
